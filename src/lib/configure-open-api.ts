@@ -13,5 +13,9 @@ export default function configureOpenApi(app: AppOpenApi) {
       description: "Tasks API",
     },
   });
-  app.get("/scalar", Scalar({ url: "/doc" }));
+  app.get("/scalar", Scalar({
+    theme: "kepler",
+    layout: "classic",
+    url: "/doc",
+  }));
 }
