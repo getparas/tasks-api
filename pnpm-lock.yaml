@@ -29,6 +29,9 @@ importers:
       drizzle-orm:
         specifier: ^0.44.5
         version: 0.44.5(@libsql/client@0.15.14)
+      drizzle-zod:
+        specifier: ^0.8.3
+        version: 0.8.3(drizzle-orm@0.44.5(@libsql/client@0.15.14))(zod@4.1.5)
       hono:
         specifier: ^4.9.6
         version: 4.9.6
@@ -1057,6 +1060,12 @@ packages:
         optional: true
       sqlite3:
         optional: true
+
+  drizzle-zod@0.8.3:
+    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: ^3.25.0 || ^4.0.0
 
   electron-to-chromium@1.5.214:
     resolution: {integrity: sha512-TpvUNdha+X3ybfU78NoQatKvQEm1oq3lf2QbnmCEdw+Bd9RuIAY+hJTvq1avzHM0f7EJfnH3vbCnbzKzisc/9Q==}
@@ -2924,6 +2933,11 @@ snapshots:
   drizzle-orm@0.44.5(@libsql/client@0.15.14):
     optionalDependencies:
       '@libsql/client': 0.15.14
+
+  drizzle-zod@0.8.3(drizzle-orm@0.44.5(@libsql/client@0.15.14))(zod@4.1.5):
+    dependencies:
+      drizzle-orm: 0.44.5(@libsql/client@0.15.14)
+      zod: 4.1.5
 
   electron-to-chromium@1.5.214: {}
 
