@@ -1,7 +1,7 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-import { toZodV4SchemaTyped } from "@/lib/zod-utils.ts";
+import { toZodV4SchemaTyped } from "@/lib/zod-utils.js";
 
 export const tasks = sqliteTable("tasks", {
   id: integer({ mode: "number" })
