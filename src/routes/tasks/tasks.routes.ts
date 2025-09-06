@@ -1,9 +1,10 @@
 import { createRoute, z } from "@hono/zod-openapi";
-import * as HttpStatusCode from "stoker/http-status-codes";
+import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
-import { createErrorSchema } from "stoker/openapi/schemas";
+import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
 import { insertTasksSchema, selectTasksSchema } from "@/db/schema.js";
+import { notFoundSchema } from "@/lib/constants.js";
 
 const tags = ["Tasks"];
 
@@ -12,7 +13,7 @@ export const list = createRoute({
   path: "/tasks",
   method: "get",
   responses: {
-    [HttpStatusCode.OK]: jsonContent(
+    [HttpStatusCodes.OK]: jsonContent(
       z.array(selectTasksSchema),
       "The list of tasks",
     ),
@@ -30,16 +31,40 @@ export const create = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCode.OK]: jsonContent(
+    [HttpStatusCodes.OK]: jsonContent(
       selectTasksSchema,
       "The created task",
     ),
-    [HttpStatusCode.UNPROCESSABLE_ENTITY]: jsonContent(
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(insertTasksSchema),
       "The validation error(s)",
     ),
   },
 });
 
+export const getOne = createRoute({
+  path: "tasks/{id}",
+  method: "get",
+  request: {
+    params: IdParamsSchema,
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      selectTasksSchema,
+      "The requested task",
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      notFoundSchema,
+      "Task not found",
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(IdParamsSchema),
+      "Invalid id error",
+    ),
+  },
+});
+
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
+export type GetOneRoute = typeof getOne;
